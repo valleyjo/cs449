@@ -1,0 +1,9 @@
+Script started on Wed Sep 04 14:47:25 2013
+(1) unixs1 $ gcc lab1.c
+lab1.c: In function `main':
+lab1.c:5: error: parse error before "return"
+(2) unixs1 $ Use "exit" to leave the shell.
+(2) unixs1 $ exit
+exit
+
+script done on Wed Sep 04 14:48:00 2013
