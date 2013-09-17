@@ -120,5 +120,5 @@ int main(){
            full_computer_choice, result_of_battle); 
     printf("\nThe score is now you: %d computer: %d\n", player_score, computer_score);
 
-  } while (computer_score < 5 && player_score < 5);
+  } while (computer_score < 3 && player_score < 3);
 }//end main
