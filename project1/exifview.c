@@ -45,17 +45,18 @@ int verify(Header head){
 }
 
 void print_sub_tags(FILE *file, int tag_count){
-  int i;
-  unsigned short WIDTH = 0xa02;
-  unsigned short HEIGHT = 0xa03;
-  unsigned short ISO_SPEED = 0x8827;
+  unsigned int tmp_ptr_loc, i;
+  unsigned short WIDTH = 0xa02, HEIGHT = 0xa03, ISO_SPEED = 0x8227;
   Tag tag;
-  unsigned int tmp_ptr_loc;
 
   for (i = 0; i < tag_count; i++){
     fread(&tag, sizeof(tag), 1, file);
 
     tmp_ptr_loc = ftell(file);
+
+    if (WIDTH == tag.id){
+      printf("Width found");
+    }
   }
 }
 
