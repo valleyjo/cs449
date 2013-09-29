@@ -44,6 +44,21 @@ int verify(Header head){
   return 1;
 }
 
+void print_sub_tags(FILE *file, int tag_count){
+  int i;
+  unsigned short WIDTH = 0xa02;
+  unsigned short HEIGHT = 0xa03;
+  unsigned short ISO_SPEED = 0x8827;
+  Tag tag;
+  unsigned int tmp_ptr_loc;
+
+  for (i = 0; i < tag_count; i++){
+    fread(&tag, sizeof(tag), 1, file);
+
+    tmp_ptr_loc = ftell(file);
+  }
+}
+
 int main(int argc, char *argv[]){
 
   //Variable declerations
@@ -51,9 +66,6 @@ int main(int argc, char *argv[]){
   unsigned short MAN_STR = 0x010f;
   unsigned short MODEL_STR = 0x0110;
   unsigned short SUB_BLOCK_INDICATOR = 0x8769;
-  unsigned short WIDTH = 0xa02;
-  unsigned short HEIGHT = 0xa03;
-  unsigned short ISO_SPEED = 0x8827;
   unsigned short sub_block_count;
   unsigned int block_address;
   unsigned int tmp_ptr_loc;
@@ -77,9 +89,11 @@ int main(int argc, char *argv[]){
 
   fread(&count, sizeof(count), 1, file);
 
+  /*Debug print statements
   printf("endinness => %s\n",head.endinness);
   printf("count => %u\n", count);
   printf("ftell() => %d\n", ftell(file));
+  */
 
   for (i = 0; i < count; i++){
     fread(&tag, sizeof(tag), 1, file);
@@ -90,21 +104,20 @@ int main(int argc, char *argv[]){
       fseek(file, tag.offset + 12, SEEK_SET);
       fread(&value_str, sizeof(value_str[0]), tag.num_items, file);
       printf("%-15s %s\n", "Manufacturer:", value_str);
-      fseek(file, tmp_ptr_loc, SEEK_SET);
     }
 
     else if (tag.id == MODEL_STR){
       fseek(file, tag.offset + 12, SEEK_SET);
       fread(&value_str, sizeof(value_str[0]), tag.num_items, file);
       printf("%-15s %s\n", "Model:", value_str);
-      fseek(file, tmp_ptr_loc, SEEK_SET);
     }
 
     else if (tag.id == SUB_BLOCK_INDICATOR){
       fseek(file, tag.offset + 12, SEEK_SET);
       fread(&sub_block_count, sizeof(sub_block_count), 1, file);
-      //print_sub_block_tags(file, sub_block_count,
+      print_sub_tags(file, sub_block_count);
     }
-  }
 
+    fseek(file, tmp_ptr_loc, SEEK_SET);
+  }
 }
