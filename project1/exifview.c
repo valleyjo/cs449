@@ -29,12 +29,12 @@ typedef struct{
 int main(int argc, char *argv[]){
 
   //Variable declerations
-  int count;
+  unsigned short count;
 
   // Verify the program was executed correctly
   if (argc < 2 || argc > 2){
     printf("Usage: ./exifview img.jpg\nTry again!\n\n");
-    return 0; 
+    return 0;
   }
 
   // Variable decleration
@@ -44,8 +44,8 @@ int main(int argc, char *argv[]){
   file = fopen(argv[1], "rb");
   fread(&head, sizeof(head), 1, file);
 
-  printf("%s",head.endinness);
-  
+  printf("endinness => %s\n",head.endinness);
+
   //Verify the files are properly formatted!
   if (head.app_marker != 0xE1FF){ //verify no app0 marker is present
     printf("The file is improperly formatted!\nFile contains an APP0 marker.\n\n");
@@ -58,11 +58,13 @@ int main(int argc, char *argv[]){
   }
 
   if (0 != strcmp(head.exif, "Exif")){
-    printf("Your fine does not contain EXIF data!");
+    printf("Your file does not contain EXIF data!");
     return 0;
   }
 
-  
+  fread(&count, sizeof(count), 1, file);
+  printf("count => %u\n", count);
+  printf("ftell() => %u\n", ftell(file));
 
   printf("End of the program.");
 }
