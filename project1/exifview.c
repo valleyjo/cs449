@@ -62,15 +62,10 @@ void print_sub_tags(FILE *file, int tag_count){
 int main(int argc, char *argv[]){
 
   //Variable declerations
-  unsigned short count;
-  unsigned short MAN_STR = 0x010f;
-  unsigned short MODEL_STR = 0x0110;
-  unsigned short SUB_BLOCK_INDICATOR = 0x8769;
-  unsigned short sub_block_count;
-  unsigned int block_address;
-  unsigned int tmp_ptr_loc;
+  unsigned short count, sub_block_count, MAN_STR = 0x010f,
+                 MODEL_STR = 0x0110, SUB_BLOCK_INDICATOR = 0x8769;
+  unsigned int block_address, tmp_ptr_loc, i;
   char value_str[100];
-  unsigned int i;
   FILE * file;
   Header head;
   Tag tag;
