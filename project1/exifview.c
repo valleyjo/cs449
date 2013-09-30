@@ -46,7 +46,7 @@ int verify(Header head){
 
 void print_sub_tags(FILE *file, int tag_count){
   unsigned int tmp_ptr_loc, i, value_1, value_2;
-  unsigned short WIDTH = 0xa002, HEIGHT = 0xa003, ISO_SPEED = 0x8227, 
+  unsigned short WIDTH = 0xa002, HEIGHT = 0xa003, ISO_SPEED = 0x8827,
                  EXPOSE_SPEED = 0x829a, F_STOP = 0x829d, LENS_LENGTH = 0x920a,
                  DATE = 0x9003;
   char value_str[100];
@@ -58,36 +58,36 @@ void print_sub_tags(FILE *file, int tag_count){
     tmp_ptr_loc = ftell(file);
 
     if (WIDTH == tag.id){
-      printf("%-15s %d\n", "Width:", tag.offset);
+      printf("%-15s %d pixels\n", "Width:", tag.offset);
     }
 
     else if (HEIGHT == tag.id){
-      printf("%-15s %d\n", "Height:", tag.offset);
+      printf("%-15s %d pixels\n", "Height:", tag.offset);
     }
 
     else if (ISO_SPEED == tag.id){
-      printf("%-15s %d\n", "ISO Speed:", tag.offset);
+      printf("%-15s ISO %d\n", "ISO:", tag.offset);
     }
 
     else if (EXPOSE_SPEED == tag.id){
       fseek(file, tag.offset + 12, SEEK_SET);
       fread(&value_1, sizeof(value_1), 1, file);
       fread(&value_2, sizeof(value_1), 1, file);
-      printf("%-15s %d/%d\n", "Exposure Speed:", value_1, value_2);
+      printf("%-15s %d/%d second\n", "Exposure time:", value_1, value_2);
     }
 
     else if (F_STOP == tag.id){
       fseek(file, tag.offset + 12, SEEK_SET);
       fread(&value_1, sizeof(value_1), 1, file);
       fread(&value_2, sizeof(value_1), 1, file);
-      printf("%-15s %d/%d\n", "F Stop:", value_1, value_2);
+      printf("%-15s f/%.1f\n", "F Stop:", (double)value_1/value_2);
     }
 
     else if (LENS_LENGTH == tag.id){
       fseek(file, tag.offset + 12, SEEK_SET);
       fread(&value_1, sizeof(value_1), 1, file);
       fread(&value_2, sizeof(value_1), 1, file);
-      printf("%-15s %d/%d\n", "Lens Length:", value_1, value_2);
+      printf("%-15s %.0f mm\n", "Lens Length:", (double)value_1/value_2);
     }
 
     else if (DATE == tag.id){
