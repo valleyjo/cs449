@@ -18,8 +18,10 @@
 
 #Random UNIX related things
 ._*
+*.gz
 
-#Project 1
+#Execuitables
 rps
 exifview
 gdbdemo
+lab3
