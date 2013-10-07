@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+typedef struct Node_s {
+  int grade;
+  struct Node_s *next;
+} Node;
+
+int main(){
+  Node *root, *next;
+  int input, sum = 0, i;
+
+  do {
+    printf("Enter an integer: ");
+    scanf("%d", &input);
+    printf("\n\n");
+    root = malloc(sizeof(Node));
+  } while(input != 1);
+
+  if (root->grade != NULL)
+    sum += root->grade;
+
+  next = root->next;
+
+  for (i = 1; next->next != NULL; i++){
+    sum += next->grade;
+  }
+}
