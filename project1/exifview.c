@@ -4,6 +4,7 @@
 //Class: CS 449
 
 #include <stdio.h>
+#include <string.h>
 
 /* Struct for the image header */
 typedef struct{

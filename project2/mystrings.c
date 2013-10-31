@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
     return 0;
   }
 
-  do {
+  while(feof(file) == 0) {
     fread(&c, sizeof(c), 1, file);
 
     if (c > 31 && c < 127){
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]){
     len = 0;
     str[0] = '\0';
 
-  } while(feof(file) == 0);
+  }
 
   fclose(file);
   return 0;
