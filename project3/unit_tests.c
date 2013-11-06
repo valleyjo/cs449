@@ -9,27 +9,68 @@
 #include <unistd.h>
 #include "mymalloc.c"
 
-int main(){
-  int *init_adr;
-  int *old_adr;
-  int *top_adr;
+void test1();
+void test2();
+void test3();
+
+int main(int argc, char *argv[]){
+  int *adr;
+  char input;
 
   printf("Unit testing your custom malloc...\n");
-  init_adr = sbrk(0);
-  printf("Initial Address location: %d\n\n", init_adr);
+  adr = sbrk(0);
+  printf("Initial Address location: %d\n", adr);
 
-  old_adr = my_next_fit_malloc(20);
+  if (argc < 2)
+    input = 48;
+  else
+    input = *argv[1];
 
-  if (*old_adr != *init_adr){
-    printf("ERROR. Expected initial address and return address\
-            after the first allocation to be equal");
-    printf("Initial address: %d", init_adr);
-    printf("Returned Address: %d", old_adr);
+  //printf("\ntest case execuition selection: %c\n", input);
+
+  switch (input){
+    case '0':
+      printf("\nexecuiting all tests\n");
+      test1();
+      test2();
+      test3();
+      break;
+
+    case '1':
+      test1();
+      break;
+
+    case '2':
+      test2();
+      break;
+
+    case '3':
+      test3();
+      break;
   }
-
-  top_adr = sbrk(0);
-  printf("Address after allocation of 20 bytes: %d\n\n",\
-          top_adr);
-
   return 0;
 }
+
+
+void test1(){
+  printf("\n\ntest case #1");
+
+  int *malloc1 = my_next_fit_malloc(20);
+  int *malloc2 = my_next_fit_malloc(20);
+  int *malloc3 = my_next_fit_malloc(20);
+
+  printf("\nmalloc1: %d:", malloc1);
+  printf("\nmalloc2: %d:", malloc2);
+  printf("\nmalloc3: %d:", malloc3);
+
+  print_list();
+}
+
+void test2(){
+
+}
+
+void test3(){
+
+}
+
