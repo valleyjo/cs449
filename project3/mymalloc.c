@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 // Using this statement, we can refer to a Node as simply Node without the need
 // to use pointers. It saves some typing.
@@ -36,8 +37,8 @@ static Node last = 0;
 
 /*
  * ----------------------------------------------------------------------------
- * Extend the heap when there is not enough space in the current heap for the 
- * resuested memory allocation.
+ * Extend the heap when there is not enough space in the current heap for the
+ * requested memory allocation.
  * ----------------------------------------------------------------------------
  */
 Node extend_heap(int size){
@@ -84,24 +85,19 @@ static Node init_list(int size){
  */
 void *my_next_fit_malloc(int size){
 
-  init_list(size);
-
   if (first == 0){
-    printf("First == 0\n");
-    //init_list();
+    /*printf("First == 0\n");
+    init_list(size);
 
-    // Assigning the first node failed :'(
-    //if (first == NULL)
-      //return NULL;
+    //Assigning the first node failed :'(
+    if (first == NULL)
+      return NULL;*/
+
+    // The allocation succeeded! :D
+    return (void*)(init_list(size));
   }
 
-  void *ptr;
-  ptr = sbrk(0);
-
-  if (sbrk(size)== (void*)-1)
-    return NULL;
-  else
-    return ptr;
+  return (void*)(extend_heap(size));
 }
 
 /*
@@ -124,22 +120,32 @@ void my_free(int *ptr){
 void print_list(){
   Node n = first;
   int i = 0;
+  char free[10];
 
   if (first != NULL){
     printf("\n\nBegin memory allocation region dump...");
+
+    if (n->free == 0)
+      strcpy(free, "false");
+    else
+      strcpy(free, "true");
+
     while(n != NULL){
+
       printf("\n");
       printf("\nNode: %d", i);
       printf("\nAddr: %d", n);
       printf("\nSize: %d", n->size);
-      printf("\nFree: %d", n->free);
+      printf("\nFree: %s", free);
       printf("\nNext: %d", n->next);
       printf("\nPrev: %d", n->prev);
-      printf("\n");
 
       n = n->next;
       i++;
     }// end while
+
+    printf("\n");
+
   }// end if
 }// end print_list:
 

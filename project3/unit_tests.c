@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
 
   switch (input){
     case '0':
-      printf("\nexecuiting all tests\n");
+      printf("\nexecuiting all tests");
       test1();
       test2();
       test3();
@@ -55,9 +55,9 @@ int main(int argc, char *argv[]){
 void test1(){
   printf("\n\ntest case #1");
 
-  int *malloc1 = my_next_fit_malloc(20);
-  int *malloc2 = my_next_fit_malloc(20);
-  int *malloc3 = my_next_fit_malloc(20);
+  int *malloc1 = my_next_fit_malloc(100);
+  int *malloc2 = my_next_fit_malloc(50);
+  int *malloc3 = my_next_fit_malloc(75);
 
   printf("\nmalloc1: %d:", malloc1);
   printf("\nmalloc2: %d:", malloc2);
