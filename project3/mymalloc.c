@@ -10,6 +10,7 @@
 #include <string.h>
 
 void print_list();
+void* split(int size);
 
 // Using this statement, we can refer to a Node as simply Node without the need
 // to use pointers. It saves some typing.
@@ -112,7 +113,44 @@ void *my_next_fit_malloc(int size){
 void my_free(void *ptr){
   Node n = (Node)ptr - 1;
   n->free = 1;
+}
 
+/*
+ * ----------------------------------------------------------------------------
+ * Returns the next available location in the linked list based on the most
+ * recent search position.
+ * ----------------------------------------------------------------------------
+ */
+void next_fit(int size){
+
+  if (cur == NULL)
+    printf("\n\nCRITICAL ERROR: cur is not assigned. You dropped your\
+            pointer :'(\nwhy don't you go cry about it.\n\n");
+
+  if (cur->free == 1 && cur->size > size){
+    cur->free = 0;
+    cur->size = size;
+    split(size);
+  }
+
+  while(cur->next != NULL){
+    cur = cur->next;
+  }
+}
+
+
+void* split(int size){
+
+  Node n = cur + 1 + (size / sizeof(struct node));
+
+  n->free = 0;
+  n->next = cur->next;
+  n->prev = cur;
+  n->size = size;
+  cur->next->prev = n;
+  cur->next = n;
+
+  return n;
 }
 
 /*
