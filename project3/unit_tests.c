@@ -41,6 +41,7 @@ void test1(){
   print_list();
 }
 
+// test freeing a region in the midde of a list
 void test2(){
 
   printf("\ntest case #2");

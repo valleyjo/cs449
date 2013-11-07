@@ -10,7 +10,8 @@
 #include <string.h>
 
 void print_list();
-void* split(int size);
+void* split(int);
+void* next_fit(int);
 
 // Using this statement, we can refer to a Node as simply Node without the need
 // to use pointers. It saves some typing.
@@ -88,19 +89,21 @@ static Node init_list(int size){
  */
 void *my_next_fit_malloc(int size){
 
-  if (first == 0){
-    /*printf("First == 0\n");
-    init_list(size);
-
-    //Assigning the first node failed :'(
-    if (first == NULL)
-      return NULL;*/
-
-    // The allocation succeeded! :D
+  // if this is the first call
+  if (first == 0)
     return (void*)(init_list(size) + 1);
-  }
 
-  return (void*)(extend_heap(size) + 1);
+  else{
+    Node n = next_fit(size);
+
+    if (n == NULL)
+      return (extend_heap(size) + 1);
+
+    else{
+      cur = n;
+      return n;
+    }
+  }
 }
 
 /*
@@ -112,7 +115,11 @@ void *my_next_fit_malloc(int size){
  */
 void my_free(void *ptr){
   Node n = (Node)ptr - 1;
+  printf("\nn: %d\n", n);
+  printf("first->next: %d\n", first->next);
+  printf("n->free = %d", n->free);
   n->free = 1;
+  printf("n->free = %d", n->free);
 }
 
 /*
@@ -121,27 +128,74 @@ void my_free(void *ptr){
  * recent search position.
  * ----------------------------------------------------------------------------
  */
-void next_fit(int size){
+void* next_fit(int size){
 
-  if (cur == NULL)
-    printf("\n\nCRITICAL ERROR: cur is not assigned. You dropped your\
-            pointer :'(\nwhy don't you go cry about it.\n\n");
+  Node n = cur->next;
 
-  if (cur->free == 1 && cur->size > size){
-    cur->free = 0;
-    cur->size = size;
-    split(size);
+  while(n != NULL){
+
+    // when the free space is exactl equal, avoid creating an extra node
+    if (n->free == 1 && n->size == size){
+      n->free = 0;
+      n->size;
+      cur = n;
+      return n;
+    }
+
+    // when there is enough free space, adjust the space and create a new
+    // node with the remaining free space
+    if (n->free == 1 && n->size > (size + sizeof(struct node))){
+      n = split(size);
+      n->free = 0;
+      n->size = size;
+      return n;
+    }
+
+    printf(" n: %d", n);
+    if (n->next == NULL){
+      if (n == first){
+        n = NULL;
+      }
+
+      else {
+        n = first;
+      }
+    }
+
+    else{
+      if (n == cur)
+        n = NULL;
+      else
+        n = n->next;
+    }
   }
 
-  while(cur->next != NULL){
-    cur = cur->next;
-  }
+  return (void*)(extend_heap(size) + 1);
 }
 
 
+/*
+ * ----------------------------------------------------------------------------
+ * Split a large free space into space for the requested size and another free
+ * space node representing the remaining free space in the initial free space
+ * ----------------------------------------------------------------------------
+ */
 void* split(int size){
+  Node n;
 
-  Node n = cur + 1 + (size / sizeof(struct node));
+  cur->size = cur->size - (size + sizeof(struct node));
+
+  n = (cur + sizeof(struct node)) + cur->size;
+
+  n->size = size;
+  n->free = 0;
+  n->next = cur->next;
+  n->prev = cur;
+  cur->next->prev = n;
+  cur->next = n;
+
+  return n;
+  /*Node n = cur + 1 + (size / sizeof(struct node));
 
   n->free = 0;
   n->next = cur->next;
@@ -150,7 +204,7 @@ void* split(int size){
   cur->next->prev = n;
   cur->next = n;
 
-  return n;
+  return n;*/
 }
 
 /*
