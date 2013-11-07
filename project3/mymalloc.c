@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <string.h>
 
+void print_list();
+
 // Using this statement, we can refer to a Node as simply Node without the need
 // to use pointers. It saves some typing.
 typedef struct node *Node;
@@ -24,7 +26,7 @@ typedef struct node *Node;
  */
 struct node{
   int size;
-  char free;
+  int free;
   struct node *next;
   struct node *prev;
 };
@@ -107,7 +109,9 @@ void *my_next_fit_malloc(int size){
  * larger spaces availabel for larger allocation requests
  * ----------------------------------------------------------------------------
  */
-void my_free(int *ptr){
+void my_free(void *ptr){
+  Node n = (Node)ptr;
+  n->free = 1;
 
 }
 
@@ -120,15 +124,15 @@ void my_free(int *ptr){
 void print_list(){
   Node n = first;
   int i = 0;
-  char free[10];
+  //char free[10];
 
   if (first != NULL){
     printf("\n\nBegin memory allocation region dump...");
 
-    if (n->free == 0)
+    /*if (n->free == 0)
       strcpy(free, "false");
     else
-      strcpy(free, "true");
+      strcpy(free, "true");*/
 
     while(n != NULL){
 
@@ -136,7 +140,7 @@ void print_list(){
       printf("\nNode: %d", i);
       printf("\nAddr: %d", n);
       printf("\nSize: %d", n->size);
-      printf("\nFree: %s", free);
+      printf("\nFree: %d", n->free);
       printf("\nNext: %d", n->next);
       printf("\nPrev: %d", n->prev);
 
