@@ -3,13 +3,15 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "mymalloc.h"
+
 //include your code
 
 
 //replace malloc here with the appropriate version of mymalloc
-#define MALLOC malloc
+#define MALLOC my_next_fit_malloc
 //replace free here with the appropriate version of myfree
-#define FREE free
+#define FREE my_free
 
 //You can adjust how many things are allocated
 #define TIMES 100

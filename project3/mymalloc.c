@@ -114,12 +114,61 @@ void *my_next_fit_malloc(int size){
  * ----------------------------------------------------------------------------
  */
 void my_free(void *ptr){
+
+  // Mark the node as free
   Node n = (Node)ptr - 1;
-  printf("\nn: %d\n", n);
-  printf("first->next: %d\n", first->next);
-  printf("n->free = %d", n->free);
   n->free = 1;
-  printf("n->free = %d", n->free);
+
+  // If contiguous free space nodes exist, combine them into a single node
+  // AKA: coalesce!
+  // First look and see if a node has extra space behind it
+  if (n->prev != NULL){
+    if (n->prev->free == 1){
+      n->prev->size = n->size + sizeof(struct node);
+      n->prev->next = n->next;
+
+      if (last == n)
+        last = n->prev;
+
+      if (cur == n)
+        cur = n->prev;
+
+      n = n->prev;
+    }
+  }
+
+  //Now look and see if a node in front of the node is free
+  if (n->next != NULL){
+    if (n->next->free == 1){
+      n->size += n->next->size + sizeof(struct node);
+      n->next = n->next->next;
+    }
+  }
+
+  // When the last node is free, we can cut it off and resize the heap to
+  // contain only wnat we need
+  // AKA: truncating
+  if (n == last){
+    if (last == first){
+      first = 0;
+      cur = 0;
+      last = 0;
+      brk((void*)(n));
+    }
+
+    else if (last == cur){
+      cur = cur->prev;
+      last = last->prev;
+      last->next = NULL;
+      brk((void*)(n-1));
+    }
+
+    else{
+      last = last->prev;
+      last->next = NULL;
+      brk((void*)(n-1));
+    }
+  }
 }
 
 /*
@@ -173,7 +222,6 @@ void* next_fit(int size){
   return (void*)(extend_heap(size) + 1);
 }
 
-
 /*
  * ----------------------------------------------------------------------------
  * Split a large free space into space for the requested size and another free
@@ -181,7 +229,7 @@ void* next_fit(int size){
  * ----------------------------------------------------------------------------
  */
 void* split(int size){
-  Node n;
+  /*Node n;
 
   cur->size = cur->size - (size + sizeof(struct node));
 
@@ -194,8 +242,8 @@ void* split(int size){
   cur->next->prev = n;
   cur->next = n;
 
-  return n;
-  /*Node n = cur + 1 + (size / sizeof(struct node));
+  return n;*/
+  Node n = cur + 1 + (size / sizeof(struct node));
 
   n->free = 0;
   n->next = cur->next;
@@ -204,7 +252,7 @@ void* split(int size){
   cur->next->prev = n;
   cur->next = n;
 
-  return n;*/
+  return n;
 }
 
 /*
@@ -233,6 +281,7 @@ void print_list(){
       printf("\nAddr: %d", n);
       printf("\nSize: %d", n->size);
       printf("\nFree: %d", n->free);
+      //printf("\nFree: %s", free);
       printf("\nNext: %d", n->next);
       printf("\nPrev: %d", n->prev);
 
