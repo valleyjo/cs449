@@ -60,5 +60,17 @@ void test2(){
 
 void test3(){
 
+  int *malloc4 = my_next_fit_malloc(100);
+  int *malloc5 = my_next_fit_malloc(50);
+  int *malloc6 = my_next_fit_malloc(75);
+
+  printf("\nmalloc1: %d:", malloc4);
+  printf("\nmalloc2: %d:", malloc5);
+  printf("\nmalloc3: %d:", malloc6);
+
+  *malloc5 = 5000;
+  printf("mymalloc5 value: %d", malloc5);
+  my_free(malloc5);
+
 }
 

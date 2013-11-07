@@ -96,21 +96,21 @@ void *my_next_fit_malloc(int size){
       return NULL;*/
 
     // The allocation succeeded! :D
-    return (void*)(init_list(size));
+    return (void*)(init_list(size) + 1);
   }
 
-  return (void*)(extend_heap(size));
+  return (void*)(extend_heap(size) + 1);
 }
 
 /*
  * ----------------------------------------------------------------------------
  * Free space previously allocated by malloc. This memory can now be used again
  * Also, colless any contiguous free nodes into one large free node to make
- * larger spaces availabel for larger allocation requests
+ * larger spaces available for larger allocation requests
  * ----------------------------------------------------------------------------
  */
 void my_free(void *ptr){
-  Node n = (Node)ptr;
+  Node n = (Node)ptr - 1;
   n->free = 1;
 
 }
