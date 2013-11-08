@@ -65,7 +65,8 @@ Node extend_heap(int size){
 
 /* ----------------------------------------------------------------------------
  * Run once when the list is first defined. Initializes the list.
- * --------------------------------------------------------------------------*/
+ * --------------------------------------------------------------------------
+ */
 static Node init_list(int size){
 
   first = sbrk(size + sizeof(struct node));
@@ -84,7 +85,7 @@ static Node init_list(int size){
 /*
  * ----------------------------------------------------------------------------
  * Allocate space for a given dynamic memory request. The spaces are kept track
- * of by a linked list woth nodes that store pertinant data RE: the allocation
+ * of by a linked list with nodes that store pertinant data RE: the allocation
  * ----------------------------------------------------------------------------
  */
 void *my_next_fit_malloc(int size){
@@ -229,20 +230,7 @@ void* next_fit(int size){
  * ----------------------------------------------------------------------------
  */
 void* split(int size){
-  /*Node n;
 
-  cur->size = cur->size - (size + sizeof(struct node));
-
-  n = (cur + sizeof(struct node)) + cur->size;
-
-  n->size = size;
-  n->free = 0;
-  n->next = cur->next;
-  n->prev = cur;
-  cur->next->prev = n;
-  cur->next = n;
-
-  return n;*/
   Node n = cur + 1 + (size / sizeof(struct node));
 
   n->free = 0;
@@ -264,15 +252,9 @@ void* split(int size){
 void print_list(){
   Node n = first;
   int i = 0;
-  //char free[10];
 
   if (first != NULL){
     printf("\n\nBegin memory allocation region dump...");
-
-    /*if (n->free == 0)
-      strcpy(free, "false");
-    else
-      strcpy(free, "true");*/
 
     while(n != NULL){
 
@@ -281,7 +263,6 @@ void print_list(){
       printf("\nAddr: %d", n);
       printf("\nSize: %d", n->size);
       printf("\nFree: %d", n->free);
-      //printf("\nFree: %s", free);
       printf("\nNext: %d", n->next);
       printf("\nPrev: %d", n->prev);
 

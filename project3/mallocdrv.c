@@ -3,10 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "mymalloc.h"
-
 //include your code
-
+#include "mymalloc.h"
 
 //replace malloc here with the appropriate version of mymalloc
 #define MALLOC my_next_fit_malloc
@@ -14,7 +12,7 @@
 #define FREE my_free
 
 //You can adjust how many things are allocated
-#define TIMES 100
+#define TIMES 10
 
 //If you want to make times bigger than 100, remove the call to qsort and do something else.
 //Then remove this check.

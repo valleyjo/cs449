@@ -72,6 +72,5 @@ void test3(){
   *malloc5 = 5000;
   printf("mymalloc5 value: %d", malloc5);
   my_free(malloc5);
-
 }
 
