@@ -10,7 +10,49 @@
 #include <time.h>
 
 void reroll(int rolls[]){
+  char input[10], *token[10];
+  int i, reroll[5], num_rerolls = 0;
+
+  for(i = 0; i < 5; i++)
+    reroll[i] = 0;
+
   //TODO implement this function
+  // set each value in the reroll array to zero
+  printf("\nWhich dice do you want to re-roll: ");
+  fgets(input, sizeof(input), stdin);
+
+  i = 0;
+  token[0] = strtok(input, " ");
+  while(token[i] != NULL){
+    reroll[i] = 0;
+    //printf("\n%s", token[i]);
+    int dice_to_reroll = atoi(token[i]) - 1;
+    //printf("dice to reroll => %d", dice_to_reroll);
+    reroll[dice_to_reroll] = 1;
+
+    num_rerolls = i;
+    i++;
+    token[i] = strtok(NULL, " ");
+    //reroll[dice_to_reroll] = 1;
+    //printf("rerolls[%d] => %d", i, rerolls[i] );
+  }
+
+  for(i = 0; i < 5; i++){
+    printf("\nreroll[%d] => %d", i, reroll[i]);
+  }
+  //printf("\n1\n");
+  //reroll[0] = 1;
+  //reroll[1] = 0;
+
+  for(i = 0; i < 2; i++)
+    if(reroll[i] == 1)
+      rolls[i] = rand() % 6 + 1;
+
+  printf("\nYour reroll is:\n");
+  for(i = 0; i < 5; i++)
+    printf("%d ", rolls[i]);
+  printf("\n");
+
 }
 
 int main(){
