@@ -14,7 +14,7 @@
 
 void assign_categories(int *rolls, int *upper, int *lower){
   char input[20];
-  int category_selection;
+  int category_selection, i, sum = 0;
 
   printf("\nPlace dice into:\n");
   printf("1) Upper Section\n");
@@ -37,6 +37,15 @@ void assign_categories(int *rolls, int *upper, int *lower){
     printf("\nSelection: ");
     fgets(input, sizeof(input), stdin);
     category_selection = atoi(input);
+
+    for (i = 0; i < NUM_DIE; i++)
+      if (rolls[i] == category_selection)
+        sum += category_selection;
+
+    upper[category_selection - 1] = sum;
+
+    for(i = 0; i < 6; i++)
+      printf("upper[%d] => %d\n", i, lower[i]);
   }
 
   // Lower categories
