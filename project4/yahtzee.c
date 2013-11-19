@@ -12,7 +12,11 @@
 #define NUM_DIE 5
 #define DICE_ROLL rand() % 6 + 1;
 
-void assign_categories(int *rolls, int *upper, int *lower){
+int rolls[NUM_DIE];
+int upper[6];
+int lower[7];
+
+void assign_categories(){
   char input[20];
   int category_selection, i, sum = 0;
 
@@ -43,9 +47,6 @@ void assign_categories(int *rolls, int *upper, int *lower){
         sum += category_selection;
 
     upper[category_selection - 1] = sum;
-
-    for(i = 0; i < 6; i++)
-      printf("upper[%d] => %d\n", i, lower[i]);
   }
 
   // Lower categories
@@ -53,7 +54,7 @@ void assign_categories(int *rolls, int *upper, int *lower){
     printf("Lower");
 }
 
-void reroll(int rolls[]){
+void reroll(){
   char input[NUM_DIE * 2], *token[NUM_DIE * 2];
   int i, reroll[NUM_DIE], num_rerolls = 0;
 
@@ -93,9 +94,8 @@ void reroll(int rolls[]){
 
 int main(){
 
-  int turns, i, dice_to_reroll, rolls[NUM_DIE], upper[6], lower[7];
+  int turns, i, dice_to_reroll;
   char turns_msg[30], input[20];
-
 
   srand(time(NULL));
 
@@ -120,12 +120,12 @@ int main(){
     printf("\n");
 
     // Ask the user if they want to re-roll the dice
-    reroll(rolls);
+    reroll();
 
     // Ask again according to game requirements
-    reroll(rolls);
+    reroll();
 
-    assign_categories(rolls, upper, lower);
+    assign_categories();
   }
 
   return 0;
