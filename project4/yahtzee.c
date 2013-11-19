@@ -29,13 +29,14 @@ void display_score(){
   printf("Upper Section Bonus: %d\n\n", bonus);
 
   printf("%-20s%-5d%-20s%-5d\n","Three of a kind:", lower[0] \
-                               ,"Four of a kind: ", lower[1]);
+                               ,"Four of a kind:", lower[1]);
 
-  printf("%-20s%-5d%-20s%-5d\n", "Small Straight:", lower[2] \
-                               , "Large Straight: ", lower[3]);
+  printf("%-20s%-5d%-20s%-5d\n","Small Straight:", lower[2] \
+                               ,"Large Straight:", lower[3]);
 
-  printf("%-20s%-5d%-20s%-5d\n", "Full House:", lower[4] \
-                                 , "Yahtzee: ",   lower[5]);
+  printf("%-20s%-5d%-20s%-5d\n","Full House:", lower[4] \
+                               ,"Yahtzee:",   lower[5]);
+
   printf("%-20s%-5d\n\n", "Chance", lower[6]);
 }
 
@@ -78,7 +79,7 @@ void assign_categories(){
 
   // Lower categories
   else{
-    printf("Place dice into:\n");
+    printf("\nPlace dice into:\n");
     printf("1) Three of a kind\n");
     printf("2) Four of a kind\n");
     printf("3) Small Straight\n");
@@ -91,9 +92,53 @@ void assign_categories(){
     fgets(input, sizeof(input), stdin);
     category_selection = atoi(input);
 
-    
-  }
-}
+    if(category_selection == 1){
+      rolls[0] = 3;
+      rolls[1] = 3;
+      rolls[2] = 3;
+
+      int frequency_of[7];  // Holds the frequency of occurance of each 
+                            // possible die value
+      int sum = 0;          // sum of the currently rolled hand
+
+      for(i = 0; i < 7; i++)
+        frequency_of[i] = 0;
+
+      for(i = 0; i < NUM_DIE; i++){
+        // Add 1 to the frequency count of of each possible roll
+        int rolled_value = rolls[i];
+        frequency_of[rolled_value] += 1;
+        sum += rolled_value;
+      }
+
+      for(i = 0; i < 7; i++)
+        if(frequency_of[i] > 2){
+          printf("\n\n3 of a kind detected!");
+          lower[0] = sum;
+          lower_score += sum;
+          break;
+        }
+    }
+
+    if (category_selection == 2){
+      int values[6];  // Holds the frequency of occurance of each possible 
+                      // die value
+      int sum = 0;    // sum of the currently rolled hand
+
+      for(i = 0; i < NUM_DIE; i++){
+        // Add 1 to the frequency count of of each possible roll
+        int rolled_value = rolls[i];
+        values[rolled_value] += 1;
+      }
+
+      for(i = 0; i < sizeof(values); i++)
+        if(values[i] > 3)
+          lower[1] += sum;
+    }
+
+
+  } // end lower selection areaa
+} // end assign_categories90
 
 void reroll(){
   char input[NUM_DIE * 2], *token[NUM_DIE * 2];
