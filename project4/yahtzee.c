@@ -93,12 +93,9 @@ void assign_categories(){
     category_selection = atoi(input);
 
     if(category_selection == 1){
-      rolls[0] = 3;
-      rolls[1] = 3;
-      rolls[2] = 3;
-
       int frequency_of[7];  // Holds the frequency of occurance of each 
                             // possible die value
+
       int sum = 0;          // sum of the currently rolled hand
 
       for(i = 0; i < 7; i++)
@@ -113,30 +110,35 @@ void assign_categories(){
 
       for(i = 0; i < 7; i++)
         if(frequency_of[i] > 2){
-          printf("\n\n3 of a kind detected!");
           lower[0] = sum;
           lower_score += sum;
           break;
         }
     }
 
-    if (category_selection == 2){
-      int values[6];  // Holds the frequency of occurance of each possible 
-                      // die value
-      int sum = 0;    // sum of the currently rolled hand
+    if(category_selection == 2){
+      int frequency_of[7];  // Holds the frequency of occurance of each 
+                            // possible die value
+
+      int sum = 0;          // sum of the currently rolled hand
+
+      for(i = 0; i < 7; i++)
+        frequency_of[i] = 0;
 
       for(i = 0; i < NUM_DIE; i++){
         // Add 1 to the frequency count of of each possible roll
         int rolled_value = rolls[i];
-        values[rolled_value] += 1;
+        frequency_of[rolled_value] += 1;
+        sum += rolled_value;
       }
 
-      for(i = 0; i < sizeof(values); i++)
-        if(values[i] > 3)
-          lower[1] += sum;
+      for(i = 0; i < 7; i++)
+        if(frequency_of[i] > 3){
+          lower[1] = sum;
+          lower_score += sum;
+          break;
+        }
     }
-
-
   } // end lower selection areaa
 } // end assign_categories90
 
