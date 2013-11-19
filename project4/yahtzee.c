@@ -15,6 +15,29 @@
 int rolls[NUM_DIE];
 int upper[6];
 int lower[7];
+int bonus = 0;
+int lower_score = 0;
+int upper_score = 0;
+
+void display_score(){
+  printf("\nYour score so far is: %d\n\n", lower_score + upper_score \
+          + bonus);
+  printf("%-20s%-5d%-20s%-5d\n", "Ones:", upper[0], "Fours: ", upper[3]);
+  printf("%-20s%-5d%-20s%-5d\n", "Twos:", upper[1], "Fives: ", upper[4]);
+  printf("%-20s%-5d%-20s%-5d\n\n", "Threes:", upper[2], "Sixes: ", \
+          upper[5]);
+  printf("Upper Section Bonus: %d\n\n", bonus);
+
+  printf("%-20s%-5d%-20s%-5d\n","Three of a kind:", lower[0] \
+                               ,"Four of a kind: ", lower[1]);
+
+  printf("%-20s%-5d%-20s%-5d\n", "Small Straight:", lower[2] \
+                               , "Large Straight: ", lower[3]);
+
+  printf("%-20s%-5d%-20s%-5d\n", "Full House:", lower[4] \
+                                 , "Yahtzee: ",   lower[5]);
+  printf("%-20s%-5d\n\n", "Chance", lower[6]);
+}
 
 void assign_categories(){
   char input[20];
@@ -47,11 +70,29 @@ void assign_categories(){
         sum += category_selection;
 
     upper[category_selection - 1] = sum;
+    upper_score += sum;
+
+    if(upper_score > 62)
+      bonus = 35;
   }
 
   // Lower categories
-  else
-    printf("Lower");
+  else{
+    printf("Place dice into:\n");
+    printf("1) Three of a kind\n");
+    printf("2) Four of a kind\n");
+    printf("3) Small Straight\n");
+    printf("4) Large Straight\n");
+    printf("5) Full House\n");
+    printf("6) Yahtzee\n");
+    printf("7) Chance\n\n");
+
+    printf("Selection: ");
+    fgets(input, sizeof(input), stdin);
+    category_selection = atoi(input);
+
+    
+  }
 }
 
 void reroll(){
@@ -93,7 +134,6 @@ void reroll(){
 }
 
 int main(){
-
   int turns, i, dice_to_reroll;
   char turns_msg[30], input[20];
 
@@ -126,6 +166,8 @@ int main(){
     reroll();
 
     assign_categories();
+
+    display_score();
   }
 
   return 0;
