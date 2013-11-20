@@ -216,6 +216,8 @@ int main(){
     // Ask again according to game requirements
     reroll();
 
+    qsort(rolls, NUM_DIE, sizeof(int), compare);
+
     assign_categories();
 
     display_score();
