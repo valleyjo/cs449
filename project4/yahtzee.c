@@ -40,6 +40,10 @@ void display_score(){
   printf("%-20s%-5d\n\n", "Chance", lower[6]);
 }
 
+int compare(const void *this, const void *that){
+  return (*(int*)this - *(int*)that);
+}
+
 void assign_categories(){
   char input[20];
   int category_selection, i, sum = 0;
