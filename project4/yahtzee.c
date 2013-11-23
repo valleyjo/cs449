@@ -104,6 +104,42 @@ int compare(const void *this, const void *that){
   return (*(int*)this - *(int*)that);
 }
 
+int valid_selection(char upper_lower){
+  char input[20];
+  int category_selection;
+
+  while(1){
+    printf("\nSelection: ");
+    fgets(input, sizeof(input), stdin);
+    category_selection = atoi(input);
+
+    if(upper_lower == 'u'){
+      if(category_selection < 0 || category_selection > 6)
+        printf("Invalid selection. No category #%d in upper categories", category_selection);
+
+      else if(upper[category_selection - 1] == -1)
+        return category_selection;
+
+      printf("Invalid selection. Upper category #%d already assigned", category_selection);
+    }
+
+    else if(upper_lower == 'l'){
+      if(category_selection < 0 || category_selection > 7)
+        printf("Invalid selection. No category #%d in upper categories", category_selection);
+
+      else if(lower[category_selection - 1] == -1)
+        return category_selection;
+
+      printf("Invalid selection. Lower category #%d already assigned", category_selection);
+    }
+
+    else{
+      printf("\n\nERROR: invalid parameter in valid_selection(char). Parameter does not equal 'l' or 'u'");
+      exit(1);
+    }// end else for invalid parameter
+  }// end while(1) for repeated inputs
+}// end valid_selection()
+
 void assign_categories(){
   char input[20];
   int category_selection, i, sum = 0;
@@ -126,9 +162,7 @@ void assign_categories(){
     printf("5) Fives\n");
     printf("6) Sizes\n");
 
-    printf("\nSelection: ");
-    fgets(input, sizeof(input), stdin);
-    category_selection = atoi(input);
+    category_selection = valid_selection('u');
 
     for (i = 0; i < NUM_DIE; i++)
       if (rolls[i] == category_selection)
@@ -152,9 +186,7 @@ void assign_categories(){
     printf("6) Yahtzee\n");
     printf("7) Chance\n\n");
 
-    printf("Selection: ");
-    fgets(input, sizeof(input), stdin);
-    category_selection = atoi(input);
+    category_selection = valid_selection('l');
 
     // Three of a kind
     if(category_selection == 1){
