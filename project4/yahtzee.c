@@ -20,24 +20,84 @@ int lower_score = 0;
 int upper_score = 0;
 
 void display_score(){
-  printf("\nYour score so far is: %d\n\n", lower_score + upper_score \
-          + bonus);
-  printf("%-20s%-5d%-20s%-5d\n", "Ones:", upper[0], "Fours: ", upper[3]);
-  printf("%-20s%-5d%-20s%-5d\n", "Twos:", upper[1], "Fives: ", upper[4]);
-  printf("%-20s%-5d%-20s%-5d\n\n", "Threes:", upper[2], "Sixes: ", \
-          upper[5]);
+  char score_1[15], score_2[15];
+  printf("\nYour score so far is: %d\n\n", lower_score + upper_score + bonus);
+
+  // Print 1's and 4's score
+  if(upper[0] == -1)
+    strcpy(score_1, "na");
+  else
+    sprintf(score_1, "%d", upper[0]);
+  if(upper[3] == -1)
+    strcpy(score_2, "na");
+  else
+    sprintf(score_2, "%d", upper[3]);
+  printf("%-20s%-5s%-20s%-5s\n", "Ones:", score_1, "Fours: ", score_2);
+
+  // Print 2's and 5's score
+  if(upper[1] == -1)
+    strcpy(score_1, "na");
+  else
+    sprintf(score_1, "%d", upper[1]);
+  if(upper[4] == -1)
+    strcpy(score_2, "na");
+  else
+    sprintf(score_2, "%d", upper[4]);
+  printf("%-20s%-5s%-20s%-5s\n", "Twos:", score_1, "Fives: ", score_2);
+
+  // Print 3's and 6's score
+  if(upper[2] == -1)
+    strcpy(score_1, "na");
+  else
+    sprintf(score_1, "%d", upper[2]);
+  if(upper[5] == -1)
+    strcpy(score_2, "na");
+  else
+    sprintf(score_2, "%d", upper[5]);
+  printf("%-20s%-5s%-20s%-5s\n\n", "Threes:", score_1, "Sixes: ", score_2);
+
+  // Print 3's and 6's score
   printf("Upper Section Bonus: %d\n\n", bonus);
 
-  printf("%-20s%-5d%-20s%-5d\n","Three of a kind:", lower[0] \
-                               ,"Four of a kind:", lower[1]);
+  // Print 3 and 4 of a kind
+  if(lower[0] == -1)
+    strcpy(score_1, "na");
+  else
+    sprintf(score_1, "%d", lower[0]);
+  if(lower[1] == -1)
+    strcpy(score_2, "na");
+  else
+    sprintf(score_2, "%d", lower[1]);
+  printf("%-20s%-5s%-20s%-5s\n","Three of a kind:", score_1, "Four of a kind:", score_2);
 
-  printf("%-20s%-5d%-20s%-5d\n","Small Straight:", lower[2] \
-                               ,"Large Straight:", lower[3]);
+  // Print Small straight and large straight
+  if(lower[2] == -1)
+    strcpy(score_1, "na");
+  else
+    sprintf(score_1, "%d", lower[2]);
+  if(lower[3] == -1)
+    strcpy(score_2, "na");
+  else
+    sprintf(score_2, "%d", lower[3]);
+  printf("%-20s%-5s%-20s%-5s\n","Small Straight:", score_1,"Large Straight:", score_2);
 
-  printf("%-20s%-5d%-20s%-5d\n","Full House:", lower[4] \
-                               ,"Yahtzee:",   lower[5]);
+  // Print Small straight and large straight
+  if(lower[4] == -1)
+    strcpy(score_1, "na");
+  else
+    sprintf(score_1, "%d", lower[4]);
+  if(lower[5] == -1)
+    strcpy(score_2, "na");
+  else
+    sprintf(score_2, "%d", lower[5]);
+  printf("%-20s%-5s%-20s%-5s\n","Full House:", score_1,"Yahtzee:", score_2);
 
-  printf("%-20s%-5d\n\n", "Chance", lower[6]);
+  // Print chance
+  if(lower[6] == -1)
+    strcpy(score_1, "na");
+  else
+    sprintf(score_1, "%d", lower[6]);
+  printf("%-20s%-5s\n\n", "Chance:", score_1);
 }
 
 int compare(const void *this, const void *that){
@@ -239,6 +299,12 @@ void reroll(){
 int main(){
   int turns, i, dice_to_reroll;
   char turns_msg[30], input[20];
+
+  // initialize all categories to -1 to indicate they have not been assigned
+  for(i = 0; i < 6; i++)
+    upper[i] = -1;
+  for(i = 0; i < 7; i++)
+    lower[i] = -1;
 
   srand(time(NULL));
 
