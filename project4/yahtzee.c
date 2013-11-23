@@ -96,8 +96,10 @@ void assign_categories(){
     fgets(input, sizeof(input), stdin);
     category_selection = atoi(input);
 
+    // Three of a kind
     if(category_selection == 1){
-      int frequency_of[7];  // Holds the frequency of occurance of each 
+
+      int frequency_of[7];  // Holds the frequency of occurance of each
                             // possible die value
 
       int sum = 0;          // sum of the currently rolled hand
@@ -120,8 +122,9 @@ void assign_categories(){
         }
     }
 
+    // Four of a kind
     if(category_selection == 2){
-      int frequency_of[7];  // Holds the frequency of occurance of each 
+      int frequency_of[7];  // Holds the frequency of occurance of each
                             // possible die value
 
       int sum = 0;          // sum of the currently rolled hand
@@ -143,8 +146,57 @@ void assign_categories(){
           break;
         }
     }
+
+    // Full House
+    if(category_selection == 3){
+      printf("\n\nFull House");
+      if(rolls[0] == rolls[1] && (rolls[2] == rolls[3]) && (rolls[3] == rolls[4])){
+        lower_score += 25;
+        lower[2] = 25;
+      }
+
+      else if((rolls[0] == rolls[1]) && (rolls[1] == rolls[2]) && rolls[3] == rolls[4]);{
+        lower_score += 25;
+        lower[2] = 25;
+      }
+    }
+
+    // Small straight
+    if(category_selection == 4){
+      if(rolls[0] < rolls[1] && rolls[1] < rolls[2] && rolls[2] < rolls[3] && rolls[3] < rolls[4]){
+        lower[3] = 30;
+        lower_score += 30;
+      }
+    }
+
+    // Large straight
+    if(category_selection == 5){
+      if(rolls[1] < rolls[2] && rolls[2] < rolls[3] && rolls[3] < rolls[4] && rolls[4] < rolls[5]){
+        lower[4] = 40;
+        lower_score += 40;
+      }
+    }
+
+    // Yahtzee
+    if(category_selection == 6){
+      if(rolls[0] == rolls[1] && rolls[1] == rolls[2] && rolls[2] == rolls[3] && rolls[3] == rolls[4] && rolls[4] == rolls[5]){
+        lower_score += 50;
+        lower[5] = 50;
+      }
+    }
+
+    // Chance
+    if(category_selection == 7){
+      sum = 0;
+      for(i = 0; i < NUM_DIE; i++){
+        sum += rolls[i];
+      }
+      lower[6] = sum;
+      lower_score += sum;
+    }
+
   } // end lower selection areaa
-} // end assign_categories90
+} // end assign_categories()
 
 void reroll(){
   char input[NUM_DIE * 2], *token[NUM_DIE * 2];
