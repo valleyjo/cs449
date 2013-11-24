@@ -1,1 +1,0 @@
-cmd_/u/SysLab/amv49/dice_driver/dice_driver.ko := ld -m elf_i386 -r -m elf_i386  --build-id -o /u/SysLab/amv49/dice_driver/dice_driver.ko /u/SysLab/amv49/dice_driver/dice_driver.o /u/SysLab/amv49/dice_driver/dice_driver.mod.o

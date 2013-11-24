@@ -8,9 +8,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 #define NUM_DIE 5
-#define DICE_ROLL rand() % 6 + 1;
+#define DICE_ROLL dice_roll(); //rand() % 6 + 1;
 
 int rolls[NUM_DIE];
 int upper[6];
@@ -18,6 +20,14 @@ int lower[7];
 int bonus = 0;
 int lower_score = 0;
 int upper_score = 0;
+
+int dice_roll(){
+  unsigned int output;
+  int i = open("/dev/dice", O_RDONLY);
+  int n = read(i, &output, sizeof(int));
+
+  return output;
+}
 
 void display_score(){
   char score_1[15], score_2[15];

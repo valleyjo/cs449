@@ -27,6 +27,9 @@ static ssize_t dice_read(struct file * file, char * buf,
 	
 
         i = (i % 6) + 1;
+
+        if (i < 0)
+          i *= -1;
         /*
 	 * We only support reading the whole string at once.
 	 */
@@ -71,7 +74,7 @@ static struct miscdevice dice_dev = {
 	/*
 	 * Name ourselves /dev/hello.
 	 */
-	"hello",
+	"dice",
 	/*
 	 * What functions to call when a program performs file
 	 * operations on the device.
