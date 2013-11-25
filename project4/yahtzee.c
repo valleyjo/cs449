@@ -21,6 +21,12 @@ int bonus = 0;
 int lower_score = 0;
 int upper_score = 0;
 
+
+/*
+ * ----------------------------------------------------------------------------
+ * Read from the /dev/dice file to get a random number
+ * ----------------------------------------------------------------------------
+ */
 int dice_roll(){
   unsigned int output;
   int i = open("/dev/dice", O_RDONLY);
@@ -29,6 +35,12 @@ int dice_roll(){
   return output;
 }
 
+
+/*
+ * ----------------------------------------------------------------------------
+ * Display the score for each category (upepr and lower), total score & bonus
+ * ----------------------------------------------------------------------------
+ */
 void display_score(){
   char score_1[15], score_2[15];
   printf("\nYour score so far is: %d\n\n", lower_score + upper_score + bonus);
@@ -110,10 +122,22 @@ void display_score(){
   printf("%-20s%-5s\n\n", "Chance:", score_1);
 }
 
+
+/*
+ * ----------------------------------------------------------------------------
+ * Compare function for integers
+ * ----------------------------------------------------------------------------
+ */
 int compare(const void *this, const void *that){
   return (*(int*)this - *(int*)that);
 }
 
+
+/*
+ * ----------------------------------------------------------------------------
+ * Prompts the user for an input choice until they enter something valid
+ * ----------------------------------------------------------------------------
+ */
 int valid_selection(char upper_lower){
   char input[20];
   int category_selection;
@@ -150,6 +174,12 @@ int valid_selection(char upper_lower){
   }// end while(1) for repeated inputs
 }// end valid_selection()
 
+
+/*
+ * ----------------------------------------------------------------------------
+ * Have the player assign the current roll to a valid category
+ * ----------------------------------------------------------------------------
+ */
 void assign_categories(){
   char input[20];
   int category_selection, i, sum = 0;
@@ -300,6 +330,12 @@ void assign_categories(){
   } // end lower selection areaa
 } // end assign_categories()
 
+
+/*
+ * ----------------------------------------------------------------------------
+ * Re-roll the dice that the user wants to re-roll
+ * ----------------------------------------------------------------------------
+ */
 void reroll(){
   char input[NUM_DIE * 2], *token[NUM_DIE * 2];
   int i, reroll[NUM_DIE], num_rerolls = 0;
